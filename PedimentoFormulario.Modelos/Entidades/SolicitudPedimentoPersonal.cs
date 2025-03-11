@@ -13,6 +13,7 @@ namespace PedimentoFormulario.Modelos.Entidades
             // Inicializar colecciones
             FirmasPedimento = new HashSet<FirmaPedimento>();
             EstadosPedimento = new HashSet<EstadoPedimento>();
+            TareasPuesto = new HashSet<TareaPuesto>();
         }
 
         [Key]
@@ -194,10 +195,23 @@ namespace PedimentoFormulario.Modelos.Entidades
         [ForeignKey("CodDistrito,CodCanton,CodProvincia")]
         public virtual Distrito Distrito { get; set; }
 
+        // Propiedades de navegación - Jornada y Horario
+        [ForeignKey("CodJornada")]
+        public virtual Jornada Jornada { get; set; }
+
+        [ForeignKey("CodHorario")]
+        public virtual Horario Horario { get; set; }
+
+        // Propiedades de navegación - Motivo y Tipo de Resolución
+        [ForeignKey("CodMotivo")]
+        public virtual MotivoVacante MotivoVacante { get; set; }
+
+        [ForeignKey("CodTipoResolucion")]
+        public virtual TipoResolucion TipoResolucion { get; set; }
+
         // Relaciones con otras entidades
         public virtual ICollection<FirmaPedimento> FirmasPedimento { get; set; }
         public virtual ICollection<EstadoPedimento> EstadosPedimento { get; set; }
-
-        // Otras propiedades de navegación se pueden agregar según sea necesario
+        public virtual ICollection<TareaPuesto> TareasPuesto { get; set; }
     }
 }
