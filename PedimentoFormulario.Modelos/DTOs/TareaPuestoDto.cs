@@ -1,23 +1,46 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace PedimentoFormulario.Modelos.DTOs
 {
+    /// <summary>
+    /// DTO para tareas de puesto
+    /// </summary>
     public class TareaPuestoDto
     {
-        [Required]
-        [StringLength(15)]
+        /// <summary>
+        /// Pedimento asociado
+        /// </summary>
         public string Pedimento { get; set; }
 
+        /// <summary>
+        /// Código de la tarea
+        /// </summary>
         public decimal CodTarea { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Nombre de la tarea
+        /// </summary>
         public string Tarea { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Detalle de la tarea
+        /// </summary>
         public string DetalleTarea { get; set; }
 
-        [Required]
-        [StringLength(1)]
+        /// <summary>
+        /// Frecuencia de la tarea
+        /// </summary>
         public string Frecuencia { get; set; }
+
+        /// <summary>
+        /// Usuario que registró la tarea
+        /// </summary>
+        public string UsuarioReg { get; set; }
+
+        /// <summary>
+        /// Fecha de registro de la tarea
+        /// </summary>
+        public DateTime? FechaReg { get; set; }
     }
 }
+

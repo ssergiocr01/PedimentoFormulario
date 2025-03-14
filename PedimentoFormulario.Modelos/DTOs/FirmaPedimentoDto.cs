@@ -1,23 +1,46 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace PedimentoFormulario.Modelos.DTOs
 {
+    /// <summary>
+    /// DTO para firmas de pedimentos
+    /// </summary>
     public class FirmaPedimentoDto
     {
-        [Required]
-        [StringLength(15)]
+        /// <summary>
+        /// Pedimento asociado
+        /// </summary>
         public string Pedimento { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Código de la firma
+        /// </summary>
         public string CodFirma { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Tipo de firma
+        /// </summary>
         public decimal TipoFirma { get; set; }
 
-        [StringLength(50)]
+        /// <summary>
+        /// Nombre del firmante
+        /// </summary>
         public string Nombre { get; set; }
 
+        /// <summary>
+        /// Observaciones de la firma
+        /// </summary>
         public string Observaciones { get; set; }
+
+        /// <summary>
+        /// Usuario que registró la firma
+        /// </summary>
+        public string UsuarioReg { get; set; }
+
+        /// <summary>
+        /// Fecha de registro de la firma
+        /// </summary>
+        public DateTime FechaReg { get; set; }
     }
 }
+

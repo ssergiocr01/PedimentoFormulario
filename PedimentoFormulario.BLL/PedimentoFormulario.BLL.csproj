@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Servicios\" />
+    <ProjectReference Include="..\PedimentoFormulario.Data\PedimentoFormulario.Data.csproj" />
+    <ProjectReference Include="..\PedimentoFormulario.Utilities\PedimentoFormulario.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
