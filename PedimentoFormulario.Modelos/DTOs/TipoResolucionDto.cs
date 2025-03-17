@@ -1,7 +1,7 @@
 ﻿namespace PedimentoFormulario.Modelos.DTOs
 {
     /// <summary>
-    /// DTO para tipos de resolución
+    /// DTO para tipos de resolución (para combos)
     /// </summary>
     public class TipoResolucionDto
     {

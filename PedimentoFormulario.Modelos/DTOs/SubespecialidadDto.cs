@@ -1,7 +1,7 @@
 ﻿namespace PedimentoFormulario.Modelos.DTOs
 {
     /// <summary>
-    /// DTO para subespecialidades
+    /// DTO para subespecialidades (para combos)
     /// </summary>
     public class SubespecialidadDto
     {

@@ -1,7 +1,7 @@
 ﻿namespace PedimentoFormulario.Modelos.DTOs
 {
     /// <summary>
-    /// DTO para motivos de vacante
+    /// DTO para motivos de vacante (para combos)
     /// </summary>
     public class MotivoVacanteDto
     {
@@ -14,11 +14,6 @@
         /// Nombre del motivo de vacante
         /// </summary>
         public string NombreMotivo { get; set; }
-
-        /// <summary>
-        /// Detalles del motivo de vacante
-        /// </summary>
-        public string Detalles { get; set; }
 
         /// <summary>
         /// Indica si el motivo de vacante está activo

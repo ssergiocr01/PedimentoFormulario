@@ -68,6 +68,16 @@ namespace PedimentoFormulario.Modelos.DTOs
         public DateTime FechaReg { get; set; }
 
         /// <summary>
+        /// Usuario que modificó la solicitud
+        /// </summary>
+        public string UsuarioMod { get; set; }
+
+        /// <summary>
+        /// Fecha de modificación de la solicitud
+        /// </summary>
+        public DateTime? FechaMod { get; set; }
+
+        /// <summary>
         /// Código del estado
         /// </summary>
         public decimal CodEstado { get; set; }

@@ -38,6 +38,10 @@ namespace PedimentoFormulario.Modelos.DTOs
         public string NombreCanton { get; set; }
         public decimal CodDistrito { get; set; }
         public string NombreDistrito { get; set; }
+        public decimal? Destacado { get; set; }
+        public string EspecDestacado { get; set; }
+        public bool? Traslado { get; set; }
+        public string EspecTraslado { get; set; }
 
         // Información de jornada
         public decimal CodJornada { get; set; }
@@ -55,8 +59,16 @@ namespace PedimentoFormulario.Modelos.DTOs
         public string Observaciones { get; set; }
         public string DetallesResolucion { get; set; }
         public string Detalles { get; set; }
+        public string ObservacionesPed { get; set; }
+        public string ObservacionesConcursoInt { get; set; }
         public bool ReservaDiscapacidad { get; set; }
         public bool? ReservaAfrodescendiente { get; set; }
+        public bool? AnulaPed { get; set; }
+        public string NumPedimento { get; set; }
+        public bool? Temporal { get; set; }
+        public decimal? ConsecTemporal { get; set; }
+        public decimal Consecutivo { get; set; }
+        public decimal Anno { get; set; }
 
         // Información de estado
         public decimal? CodEstPedUlt { get; set; }

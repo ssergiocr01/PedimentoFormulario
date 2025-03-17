@@ -41,6 +41,16 @@ namespace PedimentoFormulario.Modelos.DTOs
         /// Fecha de registro de la tarea
         /// </summary>
         public DateTime? FechaReg { get; set; }
+
+        /// <summary>
+        /// Usuario que modificó la tarea
+        /// </summary>
+        public string UsuarioMod { get; set; }
+
+        /// <summary>
+        /// Fecha de modificación de la tarea
+        /// </summary>
+        public DateTime? FechaMod { get; set; }
     }
 }
 
