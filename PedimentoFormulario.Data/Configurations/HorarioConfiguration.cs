@@ -2,36 +2,61 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad Horario utilizando Fluent API
+    /// </summary>
     public class HorarioConfiguration : IEntityTypeConfiguration<Horario>
     {
         public void Configure(EntityTypeBuilder<Horario> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_RyS_horarios");
 
-            // Configuración de relaciones
+            // Clave primaria
+            builder.HasKey(h => h.CodHorario);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
+            // Propiedades
+            builder.Property(h => h.CodHorario)
+                .HasColumnName("cod_horario")
+                .HasColumnType("numeric(4,0)")
+                .IsRequired();
+
+            builder.Property(h => h.NombreHorario)
+                .HasColumnName("horario")
+                .HasMaxLength(35)
+                .IsRequired();
+
+            builder.Property(h => h.Detalles)
+                .HasColumnName("detalles")
+                .HasMaxLength(145)
+                .IsRequired();
+
+            builder.Property(h => h.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(h => h.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20);
+
+            builder.Property(h => h.FechaReg)
+                .HasColumnName("fechareg");
+
+            builder.Property(h => h.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20);
+
+            builder.Property(h => h.FechaMod)
+                .HasColumnName("fechamod");
+
+            // Relaciones
+            builder.HasMany(h => h.SolicitudesPedimento)
                 .WithOne(s => s.Horario)
                 .HasForeignKey(s => s.CodHorario)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.NombreHorario);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreHorario)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Detalles)
-                .IsUnicode(false);
-
-            // Configuración para campos de auditoría que son nullables
-            builder.Property(x => x.FechaReg)
-                .HasDefaultValueSql("GETDATE()");
         }
     }
 }
+

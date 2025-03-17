@@ -1,72 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace PedimentoFormulario.Modelos.Entidades
+﻿namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_clasificacion_cargos")]
+    /// <summary>
+    /// Representa un cargo en el sistema de clasificación
+    /// </summary>
     public class Cargo
     {
-        public Cargo()
-        {
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Required]
-        [Column(TypeName = "numeric(5,0)")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        /// <summary>
+        /// Código del cargo
+        /// </summary>
         public decimal CodCargo { get; set; }
 
-        [Required]
-        [Column(TypeName = "numeric(4,0)")]
+        /// <summary>
+        /// Código del manual de cargos
+        /// </summary>
         public decimal CodManual { get; set; }
 
-        [Required]
-        [Column(TypeName = "numeric(3,0)")]
+        /// <summary>
+        /// Código de la institución
+        /// </summary>
         public decimal CodInstitucion { get; set; }
 
-        [Required]
-        [StringLength(15)]
+        /// <summary>
+        /// Código de la clase
+        /// </summary>
         public string CodClase { get; set; }
 
-        [Required]
-        [StringLength(200)]
+        /// <summary>
+        /// Nombre del cargo
+        /// </summary>
         public string NombreCargo { get; set; }
 
-        [StringLength(100)]
+        /// <summary>
+        /// Vínculo al documento PDF
+        /// </summary>
         public string VinculoDocPdf { get; set; }
 
-        [Required]
-        [Column("estado")]
-        public bool Activo { get; set; }
+        /// <summary>
+        /// Estado del cargo (activo/inactivo)
+        /// </summary>
+        public bool Estado { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró el cargo
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro del cargo
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó el cargo
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación del cargo
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodClase")]
-        public virtual Clase Clase { get; set; } // Cambiado de ClaseClasificacion a Clase
+        #region Navegación
 
-        [ForeignKey("CodInstitucion")]
+        /// <summary>
+        /// Clase asociada al cargo
+        /// </summary>
+        public virtual Clase Clase { get; set; }
+
+        /// <summary>
+        /// Institución asociada al cargo
+        /// </summary>
         public virtual Institucion Institucion { get; set; }
 
-        // Nota: Falta la relación con SAGTHE_clasificacion_manuales_de_cargos
-        // [ForeignKey("CodManual,CodInstitucion")]
-        // public virtual ManualCargo ManualCargo { get; set; }
+        /// <summary>
+        /// Manual de cargos asociado
+        /// </summary>
+        public virtual ManualDeCargos ManualDeCargos { get; set; }
 
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        /// <summary>
+        /// Solicitudes de pedimento asociadas al cargo
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

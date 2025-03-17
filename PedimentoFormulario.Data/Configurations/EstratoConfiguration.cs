@@ -2,48 +2,89 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad Estrato utilizando Fluent API
+    /// </summary>
     public class EstratoConfiguration : IEntityTypeConfiguration<Estrato>
     {
         public void Configure(EntityTypeBuilder<Estrato> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_clasificacion_estratos");
 
-            // Configuración de relaciones
+            // Clave primaria
+            builder.HasKey(e => e.CodEstrato);
 
-            // Relación con ClasesGenericas (colección)
-            builder.HasMany(x => x.ClasesGenericas)
+            // Propiedades
+            builder.Property(e => e.CodEstrato)
+                .HasColumnName("cod_estrato")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(e => e.NombreEstrato)
+                .HasColumnName("nombre_estrato")
+                .HasMaxLength(100);
+
+            builder.Property(e => e.DescEstratos)
+                .HasColumnName("desc_estratos")
+                .HasMaxLength(600);
+
+            builder.Property(e => e.Resolucion)
+                .HasColumnName("resolucion")
+                .HasMaxLength(30)
+                .IsRequired();
+
+            builder.Property(e => e.FechaRes)
+                .HasColumnName("fecha_res");
+
+            builder.Property(e => e.Gaceta)
+                .HasColumnName("gaceta")
+                .HasMaxLength(150)
+                .IsRequired();
+
+            builder.Property(e => e.FechaGaceta)
+                .HasColumnName("fecha_gaceta")
+                .IsRequired();
+
+            builder.Property(e => e.VinculoDocPfd)
+                .HasColumnName("vinculo_doc_pfd")
+                .HasMaxLength(200);
+
+            builder.Property(e => e.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(e => e.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(e => e.FechaReg)
+                .HasColumnName("fechareg")
+                .IsRequired();
+
+            builder.Property(e => e.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(e => e.FechaMod)
+                .HasColumnName("fechamod")
+                .IsRequired();
+
+            // Relaciones
+            builder.HasMany(e => e.ClasesGenericas)
                 .WithOne(c => c.Estrato)
                 .HasForeignKey(c => c.CodEstrato)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
+            builder.HasMany(e => e.SolicitudesPedimento)
                 .WithOne(s => s.Estrato)
                 .HasForeignKey(s => s.CodEstrato)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.NombreEstrato);
-            builder.HasIndex(x => x.FechaGaceta);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreEstrato)
-                .IsUnicode(false);
-
-            builder.Property(x => x.DescEstratos)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Resolucion)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Gaceta)
-                .IsUnicode(false);
-
-            builder.Property(x => x.VinculoDocPfd)
-                .IsUnicode(false);
         }
     }
 }
+

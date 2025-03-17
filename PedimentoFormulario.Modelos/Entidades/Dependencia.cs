@@ -1,50 +1,71 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_DGSC_dependencias")]
+    /// <summary>
+    /// Representa una dependencia dentro de una institución
+    /// </summary>
     public class Dependencia
     {
-        [Key]
-        [Column(Order = 1, TypeName = "numeric(4,0)")]
-        [Required]
+        /// <summary>
+        /// Código de la dependencia
+        /// </summary>
         public decimal CodDependencia { get; set; }
 
-        [Key]
-        [Column(Order = 2, TypeName = "numeric(3,0)")]
-        [Required]
+        /// <summary>
+        /// Código de la institución a la que pertenece la dependencia
+        /// </summary>
         public decimal CodInstitucion { get; set; }
 
-        [Required]
-        [StringLength(255)]
-        [Column("dependencia")]
+        /// <summary>
+        /// Nombre de la dependencia
+        /// </summary>
         public string NombreDependencia { get; set; }
 
-        [StringLength(3000)]
+        /// <summary>
+        /// Detalles adicionales de la dependencia
+        /// </summary>
         public string Detalles { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si la dependencia está activa
+        /// </summary>
         public bool Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la dependencia
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro de la dependencia
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la dependencia
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación de la dependencia
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodInstitucion")]
+        #region Navegación
+
+        /// <summary>
+        /// Institución a la que pertenece la dependencia
+        /// </summary>
         public virtual Institucion Institucion { get; set; }
 
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a la dependencia
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

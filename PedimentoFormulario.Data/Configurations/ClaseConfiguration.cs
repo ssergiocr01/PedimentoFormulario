@@ -2,58 +2,128 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad Clase utilizando Fluent API
+    /// </summary>
     public class ClaseConfiguration : IEntityTypeConfiguration<Clase>
     {
         public void Configure(EntityTypeBuilder<Clase> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_clasificacion_clase");
 
-            // Configuración de relaciones
+            // Clave primaria
+            builder.HasKey(c => c.CodClase);
 
-            // Relación con ClaseGenerica (ya definida con [ForeignKey] pero configuramos comportamiento)
-            builder.HasOne(x => x.ClaseGenerica)
+            // Propiedades
+            builder.Property(c => c.CodClase)
+                .HasColumnName("cod_clase")
+                .HasMaxLength(15)
+                .IsRequired();
+
+            builder.Property(c => c.CodEstrato)
+                .HasColumnName("cod_estrato")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(c => c.CodClaseGen)
+                .HasColumnName("cod_clase_gen")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(c => c.CodClasIa)
+                .HasColumnName("cod_clas_ia")
+                .HasColumnType("numeric(3,0)")
+                .IsRequired();
+
+            builder.Property(c => c.Grupo)
+                .HasColumnName("grupo")
+                .HasColumnType("numeric(18,0)")
+                .IsRequired();
+
+            builder.Property(c => c.CodInstitucion)
+                .HasColumnName("cod_institucion")
+                .HasColumnType("numeric(3,0)")
+                .IsRequired();
+
+            builder.Property(c => c.TituloDeLaClase)
+                .HasColumnName("titulo_de_la_clase")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder.Property(c => c.NivelSalarial)
+                .HasColumnName("nivel_salarial")
+                .HasColumnType("numeric(3,0)");
+
+            builder.Property(c => c.Resolucion)
+                .HasColumnName("resolucion")
+                .HasMaxLength(30)
+                .IsRequired();
+
+            builder.Property(c => c.FechaRes)
+                .HasColumnName("fecha_res")
+                .HasMaxLength(10)
+                .IsRequired();
+
+            builder.Property(c => c.Gaceta)
+                .HasColumnName("gaceta")
+                .HasMaxLength(150)
+                .IsRequired();
+
+            builder.Property(c => c.FechaGaceta)
+                .HasColumnName("fecha_gaceta")
+                .HasMaxLength(10)
+                .IsRequired();
+
+            builder.Property(c => c.VinculoDocPdf)
+                .HasColumnName("vinculo_doc_pdf")
+                .HasMaxLength(250);
+
+            builder.Property(c => c.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(c => c.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(c => c.FechaReg)
+                .HasColumnName("fechareg")
+                .IsRequired();
+
+            builder.Property(c => c.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(c => c.FechaMod)
+                .HasColumnName("fechamod")
+                .IsRequired();
+
+            // Relaciones
+            builder.HasOne(c => c.ClaseGenerica)
+                .WithMany(cg => cg.Clases)
+                .HasForeignKey(c => new { c.CodClaseGen, c.CodEstrato })
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(c => c.Institucion)
                 .WithMany()
-                .HasForeignKey(x => new { x.CodEstrato, x.CodClaseGen })
+                .HasForeignKey(c => c.CodInstitucion)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con Institucion (ya definida con [ForeignKey] pero configuramos comportamiento)
-            builder.HasOne(x => x.Institucion)
-                .WithMany()
-                .HasForeignKey(x => x.CodInstitucion)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
-                .WithOne(s => s.Clase)
-                .HasForeignKey(s => s.CodClase)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Relación con Cargos (colección)
-            builder.HasMany(x => x.Cargos)
+            builder.HasMany(c => c.Cargos)
                 .WithOne(c => c.Clase)
                 .HasForeignKey(c => c.CodClase)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.CodEstrato);
-            builder.HasIndex(x => x.CodClaseGen);
-            builder.HasIndex(x => x.CodInstitucion);
-            builder.HasIndex(x => x.TituloDeLaClase);
-            builder.HasIndex(x => x.Grupo);
-            builder.HasIndex(x => x.NivelSalarial);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.TituloDeLaClase)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Resolucion)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Gaceta)
-                .IsUnicode(false);
+            builder.HasMany(c => c.SolicitudesPedimento)
+                .WithOne(s => s.Clase)
+                .HasForeignKey(s => s.CodClase)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
+

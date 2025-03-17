@@ -1,95 +1,126 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_clasificacion_clase")]
+    /// <summary>
+    /// Representa una clase en el sistema de clasificación
+    /// </summary>
     public class Clase
     {
-        public Clase()
-        {
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-            Cargos = new HashSet<Cargo>();
-        }
-
-        [Key]
-        [Required]
-        [StringLength(15)]
+        /// <summary>
+        /// Código de la clase
+        /// </summary>
         public string CodClase { get; set; }
 
-        [Required]
-        [Column(TypeName = "numeric(2,0)")]
+        /// <summary>
+        /// Código del estrato al que pertenece la clase
+        /// </summary>
         public decimal CodEstrato { get; set; }
 
-        [Required]
-        [Column(TypeName = "numeric(2,0)")]
+        /// <summary>
+        /// Código de la clase genérica a la que pertenece la clase
+        /// </summary>
         public decimal CodClaseGen { get; set; }
 
-        [Required]
-        [Column(TypeName = "numeric(3,0)")]
+        /// <summary>
+        /// Código de la clase en el sistema IA
+        /// </summary>
         public decimal CodClasIa { get; set; }
 
-        [Required]
-        [Column(TypeName = "numeric(18,0)")]
+        /// <summary>
+        /// Grupo al que pertenece la clase
+        /// </summary>
         public decimal Grupo { get; set; }
 
-        [Required]
-        [Column(TypeName = "numeric(3,0)")]
+        /// <summary>
+        /// Código de la institución a la que pertenece la clase
+        /// </summary>
         public decimal CodInstitucion { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        /// <summary>
+        /// Título de la clase
+        /// </summary>
         public string TituloDeLaClase { get; set; }
 
-        [Column(TypeName = "numeric(3,0)")]
+        /// <summary>
+        /// Nivel salarial de la clase
+        /// </summary>
         public decimal? NivelSalarial { get; set; }
 
-        [Required]
-        [StringLength(30)]
+        /// <summary>
+        /// Resolución que establece la clase
+        /// </summary>
         public string Resolucion { get; set; }
 
-        [Required]
-        [StringLength(10)]
+        /// <summary>
+        /// Fecha de la resolución
+        /// </summary>
         public string FechaRes { get; set; }
 
-        [Required]
-        [StringLength(150)]
+        /// <summary>
+        /// Gaceta donde se publicó la resolución
+        /// </summary>
         public string Gaceta { get; set; }
 
-        [Required]
-        [StringLength(10)]
+        /// <summary>
+        /// Fecha de la gaceta
+        /// </summary>
         public string FechaGaceta { get; set; }
 
-        [StringLength(250)]
+        /// <summary>
+        /// Vínculo al documento PDF
+        /// </summary>
         public string VinculoDocPdf { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si la clase está activa
+        /// </summary>
         public bool Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la clase
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro de la clase
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la clase
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación de la clase
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodEstrato,CodClaseGen")]
+        #region Navegación
+
+        /// <summary>
+        /// Clase genérica a la que pertenece la clase
+        /// </summary>
         public virtual ClaseGenerica ClaseGenerica { get; set; }
 
-        [ForeignKey("CodInstitucion")]
+        /// <summary>
+        /// Institución a la que pertenece la clase
+        /// </summary>
         public virtual Institucion Institucion { get; set; }
 
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
-        public virtual ICollection<Cargo> Cargos { get; set; }
+        /// <summary>
+        /// Cargos asociados a esta clase
+        /// </summary>
+        public virtual ICollection<Cargo> Cargos { get; set; } = new List<Cargo>();
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a esta clase
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

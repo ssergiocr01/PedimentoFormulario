@@ -2,56 +2,99 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad SubEspecialidad utilizando Fluent API
+    /// </summary>
     public class SubEspecialidadConfiguration : IEntityTypeConfiguration<SubEspecialidad>
     {
         public void Configure(EntityTypeBuilder<SubEspecialidad> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_clasificacion_sub_especialidad");
 
-            // Configuración de relaciones
+            // Clave primaria compuesta
+            builder.HasKey(s => new { s.CodSubEspecialidad, s.CodEspecialidad });
 
-            // Relación con Especialidad (ya definida con [ForeignKey] pero configuramos comportamiento)
-            builder.HasOne(x => x.Especialidad)
+            // Propiedades
+            builder.Property(s => s.CodSubEspecialidad)
+                .HasColumnName("cod_sub_especialidad")
+                .HasColumnType("numeric(3,0)")
+                .IsRequired();
+
+            builder.Property(s => s.CodEspecialidad)
+                .HasColumnName("cod_especialidad")
+                .HasColumnType("numeric(3,0)")
+                .IsRequired();
+
+            builder.Property(s => s.NombreSubespecialidad)
+                .HasColumnName("subespecialidad")
+                .HasMaxLength(200)
+                .IsRequired();
+
+            builder.Property(s => s.Observaciones)
+                .HasColumnName("observaciones")
+                .HasMaxLength(350);
+
+            builder.Property(s => s.Resolucion)
+                .HasColumnName("resolucion")
+                .HasMaxLength(30)
+                .IsRequired();
+
+            builder.Property(s => s.FechaRes)
+                .HasColumnName("fecha_res")
+                .HasMaxLength(10)
+                .IsRequired();
+
+            builder.Property(s => s.Gaceta)
+                .HasColumnName("gaceta")
+                .HasMaxLength(150)
+                .IsRequired();
+
+            builder.Property(s => s.FechaGaceta)
+                .HasColumnName("fehca_gaceta") // Nota: hay un error ortográfico en el nombre de la columna
+                .HasMaxLength(10)
+                .IsRequired();
+
+            builder.Property(s => s.VinculoDocPfd)
+                .HasColumnName("vinculo_doc_pfd")
+                .HasMaxLength(500);
+
+            builder.Property(s => s.Activo)
+                .HasColumnName("activo");
+
+            builder.Property(s => s.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(s => s.FechaReg)
+                .HasColumnName("fechareg");
+
+            builder.Property(s => s.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(s => s.FechaMod)
+                .HasColumnName("fechamod");
+
+            builder.Property(s => s.Nota)
+                .HasColumnName("nota")
+                .HasMaxLength(500);
+
+            // Relaciones
+            builder.HasOne(s => s.Especialidad)
                 .WithMany(e => e.SubEspecialidades)
-                .HasForeignKey(x => x.CodEspecialidad)
+                .HasForeignKey(s => s.CodEspecialidad)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
-                .WithOne(s => s.SubEspecialidad)
-                .HasForeignKey(s => new { s.CodSubEspecialidad, s.CodEspecialidad })
+            builder.HasMany(s => s.SolicitudesPedimento)
+                .WithOne(sp => sp.SubEspecialidad)
+                .HasForeignKey(sp => new { sp.CodSubEspecialidad, sp.CodEspecialidad })
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.CodEspecialidad);
-            builder.HasIndex(x => x.NombreSubespecialidad);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreSubespecialidad)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Observaciones)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Resolucion)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Gaceta)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Nota)
-                .IsUnicode(false);
-
-            // Configuración para el campo Activo que es nullable
-            builder.Property(x => x.Activo)
-                .HasDefaultValue(true);
-
-            // Configuración para campos de auditoría que son nullables
-            builder.Property(x => x.FechaReg)
-                .HasDefaultValueSql("GETDATE()");
         }
     }
 }
+

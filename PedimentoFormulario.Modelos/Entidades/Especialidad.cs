@@ -1,68 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_clasificacion_especialidades")]
+    /// <summary>
+    /// Representa una especialidad en el sistema de clasificación
+    /// </summary>
     public class Especialidad
     {
-        public Especialidad()
-        {
-            SubEspecialidades = new HashSet<SubEspecialidad>();
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Required]
-        [Column(TypeName = "numeric(3,0)")]
+        /// <summary>
+        /// Código de la especialidad
+        /// </summary>
         public decimal CodEspecialidad { get; set; }
 
-        [Required]
-        [StringLength(150)]
+        /// <summary>
+        /// Nombre de la especialidad
+        /// </summary>
         public string NombreEspecialidad { get; set; }
 
-        [StringLength(512)]
+        /// <summary>
+        /// Observaciones sobre la especialidad
+        /// </summary>
         public string Observaciones { get; set; }
 
-        [Required]
-        [StringLength(30)]
+        /// <summary>
+        /// Resolución que establece la especialidad
+        /// </summary>
         public string Resolucion { get; set; }
 
-        [Required]
-        [StringLength(10)]
+        /// <summary>
+        /// Fecha de la resolución
+        /// </summary>
         public string FechaRes { get; set; }
 
-        [Required]
-        [StringLength(150)]
+        /// <summary>
+        /// Gaceta donde se publicó la resolución
+        /// </summary>
         public string Gaceta { get; set; }
 
-        [Required]
-        [StringLength(10)]
+        /// <summary>
+        /// Fecha de la gaceta
+        /// </summary>
         public string FechaGaceta { get; set; }
 
-        [StringLength(250)]
+        /// <summary>
+        /// Vínculo al documento PDF
+        /// </summary>
         public string VinculoDocPfd { get; set; }
 
+        /// <summary>
+        /// Indica si la especialidad está activa
+        /// </summary>
         public bool? Activo { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la especialidad
+        /// </summary>
         public string UsuarioReg { get; set; }
 
+        /// <summary>
+        /// Fecha de registro de la especialidad
+        /// </summary>
         public DateTime? FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la especialidad
+        /// </summary>
         public string UsuarioMod { get; set; }
 
+        /// <summary>
+        /// Fecha de modificación de la especialidad
+        /// </summary>
         public DateTime? FechaMod { get; set; }
 
-        [StringLength(500)]
+        /// <summary>
+        /// Observaciones adicionales
+        /// </summary>
         public string Observ { get; set; }
 
-        // Propiedades de navegación
-        public virtual ICollection<SubEspecialidad> SubEspecialidades { get; set; }
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        #region Navegación
+
+        /// <summary>
+        /// Subespecialidades que pertenecen a esta especialidad
+        /// </summary>
+        public virtual ICollection<SubEspecialidad> SubEspecialidades { get; set; } = new List<SubEspecialidad>();
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a esta especialidad
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

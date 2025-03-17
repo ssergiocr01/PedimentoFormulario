@@ -1,56 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace PedimentoFormulario.Modelos.Entidades
+﻿namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_DGSC_cantones")]
+    /// <summary>
+    /// Representa un cantón (división administrativa)
+    /// </summary>
     public class Canton
     {
-        public Canton()
-        {
-            Distritos = new HashSet<Distrito>();
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Column(Order = 1, TypeName = "numeric(3,0)")]
-        [Required]
+        /// <summary>
+        /// Código del cantón
+        /// </summary>
         public decimal CodCanton { get; set; }
 
-        [Key]
-        [Column(Order = 2, TypeName = "numeric(2,0)")]
-        [Required]
+        /// <summary>
+        /// Código de la provincia a la que pertenece el cantón
+        /// </summary>
         public decimal CodProvincia { get; set; }
 
-        [Required]
-        [StringLength(35)]
-        [Column("canton")]
+        /// <summary>
+        /// Nombre del cantón
+        /// </summary>
         public string NombreCanton { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si el cantón está activo
+        /// </summary>
         public bool Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró el cantón
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro del cantón
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó el cantón
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación del cantón
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodProvincia")]
+        #region Navegación
+
+        /// <summary>
+        /// Provincia a la que pertenece el cantón
+        /// </summary>
         public virtual Provincia Provincia { get; set; }
 
-        public virtual ICollection<Distrito> Distritos { get; set; }
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        /// <summary>
+        /// Distritos que pertenecen al cantón
+        /// </summary>
+        public virtual ICollection<Distrito> Distritos { get; set; } = new List<Distrito>();
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas al cantón
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

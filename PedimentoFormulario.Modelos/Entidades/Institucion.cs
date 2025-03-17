@@ -1,48 +1,81 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_DGSC_Instituciones")]
+    /// <summary>
+    /// Representa una institución
+    /// </summary>
     public class Institucion
     {
-        [Key]
-        [Required]
-        [Column(TypeName = "numeric(3,0)")]
+        /// <summary>
+        /// Código de la institución
+        /// </summary>
         public decimal CodInstitucion { get; set; }
 
-        [Required]
-        [StringLength(450)]
-        [Column("institucion")]
+        /// <summary>
+        /// Nombre de la institución
+        /// </summary>
         public string NombreInstitucion { get; set; }
 
-        [Required]
-        [StringLength(4)]
+        /// <summary>
+        /// Sigla de la institución
+        /// </summary>
         public string Sigla { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si la institución tiene reclutamiento
+        /// </summary>
         public bool Reclutamiento { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si la institución está activa
+        /// </summary>
         public bool Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la institución
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro de la institución
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la institución
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación de la institución
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        public virtual ICollection<Dependencia> Dependencias { get; set; }
-        public virtual ICollection<Departamento> Departamentos { get; set; }
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        #region Navegación
+
+        /// <summary>
+        /// Dependencias que pertenecen a esta institución
+        /// </summary>
+        public virtual ICollection<Dependencia> Dependencias { get; set; } = new List<Dependencia>();
+
+        /// <summary>
+        /// Departamentos que pertenecen a esta institución
+        /// </summary>
+        public virtual ICollection<Departamento> Departamentos { get; set; } = new List<Departamento>();
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a esta institución
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        /// <summary>
+        /// Solicitudes a pedimento asociadas a esta institución
+        /// </summary>
+        public virtual ICollection<SolicitudAPedimento> SolicitudesAPedimento { get; set; } = new List<SolicitudAPedimento>();
+
+        #endregion
     }
 }
+

@@ -1,65 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_clasificacion_estratos")]
+    /// <summary>
+    /// Representa un estrato en el sistema de clasificación
+    /// </summary>
     public class Estrato
     {
-        public Estrato()
-        {
-            ClasesGenericas = new HashSet<ClaseGenerica>();
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Required]
-        [Column(TypeName = "numeric(2,0)")]
+        /// <summary>
+        /// Código del estrato
+        /// </summary>
         public decimal CodEstrato { get; set; }
 
-        [StringLength(100)]
+        /// <summary>
+        /// Nombre del estrato
+        /// </summary>
         public string NombreEstrato { get; set; }
 
-        [StringLength(600)]
+        /// <summary>
+        /// Descripción del estrato
+        /// </summary>
         public string DescEstratos { get; set; }
 
-        [Required]
-        [StringLength(30)]
+        /// <summary>
+        /// Resolución que establece el estrato
+        /// </summary>
         public string Resolucion { get; set; }
 
+        /// <summary>
+        /// Fecha de la resolución
+        /// </summary>
         public DateTime? FechaRes { get; set; }
 
-        [Required]
-        [StringLength(150)]
+        /// <summary>
+        /// Gaceta donde se publicó la resolución
+        /// </summary>
         public string Gaceta { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de la gaceta
+        /// </summary>
         public DateTime FechaGaceta { get; set; }
 
-        [StringLength(200)]
+        /// <summary>
+        /// Vínculo al documento PDF
+        /// </summary>
         public string VinculoDocPfd { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si el estrato está activo
+        /// </summary>
         public bool Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró el estrato
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro del estrato
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó el estrato
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación del estrato
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        public virtual ICollection<ClaseGenerica> ClasesGenericas { get; set; }
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        #region Navegación
+
+        /// <summary>
+        /// Clases genéricas que pertenecen a este estrato
+        /// </summary>
+        public virtual ICollection<ClaseGenerica> ClasesGenericas { get; set; } = new List<ClaseGenerica>();
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a este estrato
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

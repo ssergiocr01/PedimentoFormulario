@@ -2,52 +2,97 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad ClaseGenerica utilizando Fluent API
+    /// </summary>
     public class ClaseGenericaConfiguration : IEntityTypeConfiguration<ClaseGenerica>
     {
         public void Configure(EntityTypeBuilder<ClaseGenerica> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_clasificacion_clase_generica");
 
-            // Configuración de relaciones
+            // Clave primaria compuesta
+            builder.HasKey(c => new { c.CodClaseGen, c.CodEstrato });
 
-            // Relación con Estrato (ya definida con [ForeignKey] pero configuramos comportamiento)
-            builder.HasOne(x => x.Estrato)
-                .WithMany()
-                .HasForeignKey(x => x.CodEstrato)
+            // Propiedades
+            builder.Property(c => c.CodEstrato)
+                .HasColumnName("cod_estrato")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(c => c.CodClaseGen)
+                .HasColumnName("cod_clase_gen")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(c => c.NombreGenerica)
+                .HasColumnName("nombre_generica")
+                .HasMaxLength(100);
+
+            builder.Property(c => c.Resolucion)
+                .HasColumnName("resolucion")
+                .HasMaxLength(30)
+                .IsRequired();
+
+            builder.Property(c => c.FechaRes)
+                .HasColumnName("fecha_res")
+                .HasMaxLength(10)
+                .IsRequired();
+
+            builder.Property(c => c.Gaceta)
+                .HasColumnName("gaceta")
+                .HasMaxLength(150)
+                .IsRequired();
+
+            builder.Property(c => c.FechaGaceta)
+                .HasColumnName("fecha_gaceta")
+                .HasMaxLength(10)
+                .IsRequired();
+
+            builder.Property(c => c.VinculoDocPfd)
+                .HasColumnName("vinculo_doc_pfd")
+                .HasMaxLength(200);
+
+            builder.Property(c => c.Activo)
+                .HasColumnName("activo");
+
+            builder.Property(c => c.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(c => c.FechaReg)
+                .HasColumnName("fechareg")
+                .IsRequired();
+
+            builder.Property(c => c.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(c => c.FechaMod)
+                .HasColumnName("fechamod")
+                .IsRequired();
+
+            // Relaciones
+            builder.HasOne(c => c.Estrato)
+                .WithMany(e => e.ClasesGenericas)
+                .HasForeignKey(c => c.CodEstrato)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con Clases (colección)
-            builder.HasMany(x => x.Clases)
+            builder.HasMany(c => c.Clases)
                 .WithOne(c => c.ClaseGenerica)
-                .HasForeignKey(c => new { c.CodEstrato, c.CodClaseGen })
+                .HasForeignKey(c => new { c.CodClaseGen, c.CodEstrato })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
+            builder.HasMany(c => c.SolicitudesPedimento)
                 .WithOne(s => s.ClaseGenerica)
                 .HasForeignKey(s => new { s.CodClaseGen, s.CodEstrato })
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.CodEstrato);
-            builder.HasIndex(x => x.NombreGenerica);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreGenerica)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Resolucion)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Gaceta)
-                .IsUnicode(false);
-
-            // Configuración para el campo Activo que es nullable
-            builder.Property(x => x.Activo)
-                .HasDefaultValue(true); // Valor predeterminado
         }
     }
 }
+

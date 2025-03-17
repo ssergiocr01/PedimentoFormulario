@@ -2,32 +2,64 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad EstadoParaPedimento utilizando Fluent API
+    /// </summary>
     public class EstadoParaPedimentoConfiguration : IEntityTypeConfiguration<EstadoParaPedimento>
     {
         public void Configure(EntityTypeBuilder<EstadoParaPedimento> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_RyS_estados_para_pedimentos");
 
-            // Configuración de relaciones
+            // Clave primaria
+            builder.HasKey(e => e.CodEstado);
 
-            // Relación con EstadosPedimento (colección)
-            builder.HasMany(x => x.EstadosPedimento)
-                .WithOne(e => e.EstadoParaPedimento)
-                .HasForeignKey(e => e.CodEstado)
+            // Propiedades
+            builder.Property(e => e.CodEstado)
+                .HasColumnName("cod_estado")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(e => e.NombreEstado)
+                .HasColumnName("estado")
+                .HasMaxLength(75)
+                .IsRequired();
+
+            builder.Property(e => e.Descripcion)
+                .HasColumnName("descripcion")
+                .HasMaxLength(3000);
+
+            builder.Property(e => e.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(e => e.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(e => e.FechaReg)
+                .HasColumnName("fechareg")
+                .IsRequired();
+
+            builder.Property(e => e.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(e => e.FechaMod)
+                .HasColumnName("fechamod")
+                .IsRequired();
+
+            // Relaciones
+            builder.HasMany(e => e.EstadosPedimento)
+                .WithOne(ep => ep.EstadoParaPedimento)
+                .HasForeignKey(ep => ep.CodEstado)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.NombreEstado);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreEstado)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Descripcion)
-                .IsUnicode(false);
         }
     }
 }
+

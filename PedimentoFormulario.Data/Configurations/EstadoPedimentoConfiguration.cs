@@ -2,45 +2,79 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad EstadoPedimento utilizando Fluent API
+    /// </summary>
     public class EstadoPedimentoConfiguration : IEntityTypeConfiguration<EstadoPedimento>
     {
         public void Configure(EntityTypeBuilder<EstadoPedimento> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_RyS_estados_pedimento");
 
-            // Configuración de relaciones
+            // Clave primaria compuesta
+            builder.HasKey(e => new { e.NumEstado, e.CodEstado, e.Pedimento });
 
-            // Relación con EstadoParaPedimento (ya definida con [ForeignKey] pero configuramos comportamiento)
-            builder.HasOne(x => x.EstadoParaPedimento)
+            // Propiedades
+            builder.Property(e => e.NumEstado)
+                .HasColumnName("num_estado")
+                .HasColumnType("numeric(10,0)")
+                .IsRequired();
+
+            builder.Property(e => e.CodEstado)
+                .HasColumnName("cod_estado")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(e => e.Pedimento)
+                .HasColumnName("pedimento")
+                .HasMaxLength(15)
+                .IsRequired();
+
+            builder.Property(e => e.Observaciones)
+                .HasColumnName("observaciones")
+                .HasMaxLength(3000);
+
+            builder.Property(e => e.Anexo)
+                .HasColumnName("anexo")
+                .HasMaxLength(512);
+
+            builder.Property(e => e.Activo)
+                .HasColumnName("activo");
+
+            builder.Property(e => e.FechaRige)
+                .HasColumnName("fecha_rige");
+
+            builder.Property(e => e.FechaVence)
+                .HasColumnName("fecha_vence");
+
+            builder.Property(e => e.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20);
+
+            builder.Property(e => e.FechaReg)
+                .HasColumnName("fechareg");
+
+            builder.Property(e => e.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20);
+
+            builder.Property(e => e.FechaMod)
+                .HasColumnName("fechamod");
+
+            // Relaciones
+            builder.HasOne(e => e.EstadoParaPedimento)
                 .WithMany(e => e.EstadosPedimento)
-                .HasForeignKey(x => x.CodEstado)
+                .HasForeignKey(e => e.CodEstado)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con SolicitudPedimento (ya definida con [ForeignKey] pero configuramos comportamiento)
-            builder.HasOne(x => x.SolicitudPedimento)
+            builder.HasOne(e => e.SolicitudPedimento)
                 .WithMany(s => s.EstadosPedimento)
-                .HasForeignKey(x => x.Pedimento)
+                .HasForeignKey(e => e.Pedimento)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.CodEstado);
-            builder.HasIndex(x => x.Pedimento);
-            builder.HasIndex(x => x.FechaRige);
-            builder.HasIndex(x => x.FechaVence);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.Observaciones)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Anexo)
-                .IsUnicode(false);
-
-            // Configuración para el campo Activo que es nullable
-            builder.Property(x => x.Activo)
-                .HasDefaultValue(true);
         }
     }
 }
+

@@ -1,54 +1,86 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_RyS_estados_pedimento")]
+    /// <summary>
+    /// Representa un estado de un pedimento específico
+    /// </summary>
     public class EstadoPedimento
     {
-        [Key]
-        [Column(Order = 1, TypeName = "numeric(10,0)")]
-        [Required]
+        /// <summary>
+        /// Número secuencial del estado
+        /// </summary>
         public decimal NumEstado { get; set; }
 
-        [Key]
-        [Column(Order = 2, TypeName = "numeric(2,0)")]
-        [Required]
+        /// <summary>
+        /// Código del estado
+        /// </summary>
         public decimal CodEstado { get; set; }
 
-        [Key]
-        [Column(Order = 3, TypeName = "numeric(15,0)")]
-        [Required]
+        /// <summary>
+        /// Código del pedimento
+        /// </summary>
         public string Pedimento { get; set; }
 
-        [StringLength(3000)]
+        /// <summary>
+        /// Observaciones sobre el estado del pedimento
+        /// </summary>
         public string Observaciones { get; set; }
 
-        [StringLength(512)]
+        /// <summary>
+        /// Anexo al estado del pedimento
+        /// </summary>
         public string Anexo { get; set; }
 
+        /// <summary>
+        /// Indica si el estado del pedimento está activo
+        /// </summary>
         public bool? Activo { get; set; }
 
+        /// <summary>
+        /// Fecha desde la que rige el estado
+        /// </summary>
         public DateTime? FechaRige { get; set; }
 
+        /// <summary>
+        /// Fecha en la que vence el estado
+        /// </summary>
         public DateTime? FechaVence { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró el estado del pedimento
+        /// </summary>
         public string UsuarioReg { get; set; }
 
+        /// <summary>
+        /// Fecha de registro del estado del pedimento
+        /// </summary>
         public DateTime? FechaReg { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó el estado del pedimento
+        /// </summary>
         public string UsuarioMod { get; set; }
 
+        /// <summary>
+        /// Fecha de modificación del estado del pedimento
+        /// </summary>
         public DateTime? FechaMod { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodEstado")]
+        #region Navegación
+
+        /// <summary>
+        /// Estado para pedimento asociado
+        /// </summary>
         public virtual EstadoParaPedimento EstadoParaPedimento { get; set; }
 
-        [ForeignKey("Pedimento")]
+        /// <summary>
+        /// Solicitud de pedimento asociada
+        /// </summary>
         public virtual SolicitudPedimentoPersonal SolicitudPedimento { get; set; }
+
+        #endregion
     }
 }
+

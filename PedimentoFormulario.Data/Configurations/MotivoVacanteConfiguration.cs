@@ -2,42 +2,65 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad MotivoVacante utilizando Fluent API
+    /// </summary>
     public class MotivoVacanteConfiguration : IEntityTypeConfiguration<MotivoVacante>
     {
         public void Configure(EntityTypeBuilder<MotivoVacante> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_RyS_motivos_vacante");
 
-            // Configuración de relaciones
+            // Clave primaria
+            builder.HasKey(m => m.CodMotivo);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
+            // Propiedades
+            builder.Property(m => m.CodMotivo)
+                .HasColumnName("cod_motivo")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(m => m.NombreMotivo)
+                .HasColumnName("motivo")
+                .HasMaxLength(35)
+                .IsRequired();
+
+            builder.Property(m => m.Detalles)
+                .HasColumnName("detalles")
+                .HasMaxLength(3000);
+
+            builder.Property(m => m.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(m => m.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20);
+
+            builder.Property(m => m.FechaReg)
+                .HasColumnName("fechareg");
+
+            builder.Property(m => m.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20);
+
+            builder.Property(m => m.FechaMod)
+                .HasColumnName("fechamod");
+
+            // Relaciones
+            builder.HasMany(m => m.SolicitudesPedimento)
                 .WithOne(s => s.MotivoVacante)
                 .HasForeignKey(s => s.CodMotivo)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con SolicitudesAPedimento (colección)
-            builder.HasMany(x => x.SolicitudesAPedimento)
+            builder.HasMany(m => m.SolicitudesAPedimento)
                 .WithOne(s => s.MotivoVacante)
                 .HasForeignKey(s => s.CodMotivo)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.NombreMotivo);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreMotivo)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Detalles)
-                .IsUnicode(false);
-
-            // Configuración para campos de auditoría que son nullables
-            builder.Property(x => x.FechaReg)
-                .HasDefaultValueSql("GETDATE()");
         }
     }
 }
+

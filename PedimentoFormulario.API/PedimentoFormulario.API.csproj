@@ -14,4 +14,9 @@
     <ProjectReference Include="..\PedimentoFormulario.BLL\PedimentoFormulario.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
 </Project>

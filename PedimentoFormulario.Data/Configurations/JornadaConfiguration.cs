@@ -2,36 +2,60 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad Jornada utilizando Fluent API
+    /// </summary>
     public class JornadaConfiguration : IEntityTypeConfiguration<Jornada>
     {
         public void Configure(EntityTypeBuilder<Jornada> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_RyS_jornadas");
 
-            // Configuración de relaciones
+            // Clave primaria
+            builder.HasKey(j => j.CodJornada);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
+            // Propiedades
+            builder.Property(j => j.CodJornada)
+                .HasColumnName("cod_jornada")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(j => j.NombreJornada)
+                .HasColumnName("jornada")
+                .HasMaxLength(35)
+                .IsRequired();
+
+            builder.Property(j => j.Detalles)
+                .HasColumnName("detalles")
+                .HasMaxLength(3000);
+
+            builder.Property(j => j.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(j => j.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20);
+
+            builder.Property(j => j.FechaReg)
+                .HasColumnName("fechareg");
+
+            builder.Property(j => j.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20);
+
+            builder.Property(j => j.FechaMod)
+                .HasColumnName("fechamod");
+
+            // Relaciones
+            builder.HasMany(j => j.SolicitudesPedimento)
                 .WithOne(s => s.Jornada)
                 .HasForeignKey(s => s.CodJornada)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.NombreJornada);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreJornada)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Detalles)
-                .IsUnicode(false);
-
-            // Configuración para campos de auditoría que son nullables
-            builder.Property(x => x.FechaReg)
-                .HasDefaultValueSql("GETDATE()");
         }
     }
 }
+

@@ -2,36 +2,75 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad Distrito utilizando Fluent API
+    /// </summary>
     public class DistritoConfiguration : IEntityTypeConfiguration<Distrito>
     {
         public void Configure(EntityTypeBuilder<Distrito> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_DGSC_distritos");
 
-            // Configuración de relaciones
+            // Clave primaria compuesta
+            builder.HasKey(d => new { d.CodDistrito, d.CodCanton, d.CodProvincia });
 
-            // Relación con Canton (ya definida con [ForeignKey] pero configuramos comportamiento)
-            builder.HasOne(x => x.Canton)
+            // Propiedades
+            builder.Property(d => d.CodDistrito)
+                .HasColumnName("cod_distrito")
+                .HasColumnType("numeric(3,0)")
+                .IsRequired();
+
+            builder.Property(d => d.CodCanton)
+                .HasColumnName("cod_canton")
+                .HasColumnType("numeric(3,0)")
+                .IsRequired();
+
+            builder.Property(d => d.CodProvincia)
+                .HasColumnName("cod_provincia")
+                .HasColumnType("numeric(2,0)")
+                .IsRequired();
+
+            builder.Property(d => d.NombreDistrito)
+                .HasColumnName("distrito")
+                .HasMaxLength(100)
+                .IsRequired();
+
+            builder.Property(d => d.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(d => d.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(d => d.FechaReg)
+                .HasColumnName("fechareg")
+                .IsRequired();
+
+            builder.Property(d => d.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(d => d.FechaMod)
+                .HasColumnName("fechamod")
+                .IsRequired();
+
+            // Relaciones
+            builder.HasOne(d => d.Canton)
                 .WithMany(c => c.Distritos)
-                .HasForeignKey(x => new { x.CodCanton, x.CodProvincia })
+                .HasForeignKey(d => new { d.CodCanton, d.CodProvincia })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
+            builder.HasMany(d => d.SolicitudesPedimento)
                 .WithOne(s => s.Distrito)
                 .HasForeignKey(s => new { s.CodDistrito, s.CodCanton, s.CodProvincia })
                 .OnDelete(DeleteBehavior.Restrict);
-
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => new { x.CodCanton, x.CodProvincia });
-            builder.HasIndex(x => x.NombreDistrito);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreDistrito)
-                .IsUnicode(false);
         }
     }
 }
+

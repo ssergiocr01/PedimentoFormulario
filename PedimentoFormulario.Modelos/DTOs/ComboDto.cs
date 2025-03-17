@@ -1,24 +1,19 @@
 ﻿namespace PedimentoFormulario.Modelos.DTOs
 {
     /// <summary>
-    /// DTO genérico para combos simples
+    /// DTO genérico para elementos de combos (dropdowns)
     /// </summary>
     public class ComboDto
     {
         /// <summary>
-        /// Valor que se enviará al servidor
+        /// Valor del elemento (generalmente el código o ID)
         /// </summary>
         public string Value { get; set; }
 
         /// <summary>
-        /// Texto que se mostrará en el combo
+        /// Texto a mostrar en el combo (generalmente el nombre o descripción)
         /// </summary>
         public string Text { get; set; }
-
-        /// <summary>
-        /// Indica si el elemento está activo
-        /// </summary>
-        public bool Activo { get; set; }
     }
 }
 

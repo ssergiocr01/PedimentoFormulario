@@ -1,48 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_DGSC_provincias")]
+    /// <summary>
+    /// Representa una provincia (división administrativa)
+    /// </summary>
     public class Provincia
     {
-        public Provincia()
-        {
-            Cantones = new HashSet<Canton>();
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Required]
-        [Column(TypeName = "numeric(2,0)")]
+        /// <summary>
+        /// Código de la provincia
+        /// </summary>
         public decimal CodProvincia { get; set; }
 
-        [Required]
-        [StringLength(35)]
-        [Column("provincia")]
+        /// <summary>
+        /// Nombre de la provincia
+        /// </summary>
         public string NombreProvincia { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si la provincia está activa
+        /// </summary>
         public bool Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la provincia
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro de la provincia
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la provincia
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación de la provincia
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        public virtual ICollection<Canton> Cantones { get; set; }
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        #region Navegación
+
+        /// <summary>
+        /// Cantones que pertenecen a esta provincia
+        /// </summary>
+        public virtual ICollection<Canton> Cantones { get; set; } = new List<Canton>();
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a esta provincia
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

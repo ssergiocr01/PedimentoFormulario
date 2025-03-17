@@ -2,45 +2,84 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configurations
+namespace PedimentoFormulario.Data.Configuration
 {
+    /// <summary>
+    /// Configuración de la entidad Institucion utilizando Fluent API
+    /// </summary>
     public class InstitucionConfiguration : IEntityTypeConfiguration<Institucion>
     {
         public void Configure(EntityTypeBuilder<Institucion> builder)
         {
-            // No necesitamos configurar la tabla, clave primaria, ni propiedades básicas
-            // ya que están definidas con Data Annotations en la entidad
+            // Tabla
+            builder.ToTable("SAGTHE_DGSC_Instituciones");
 
-            // Configuración de relaciones
+            // Clave primaria
+            builder.HasKey(i => i.CodInstitucion);
 
-            // Relación con Dependencias (colección)
-            builder.HasMany(x => x.Dependencias)
+            // Propiedades
+            builder.Property(i => i.CodInstitucion)
+                .HasColumnName("cod_institucion")
+                .HasColumnType("numeric(3,0)")
+                .IsRequired();
+
+            builder.Property(i => i.NombreInstitucion)
+                .HasColumnName("institucion")
+                .HasMaxLength(450)
+                .IsRequired();
+
+            builder.Property(i => i.Sigla)
+                .HasColumnName("sigla")
+                .HasMaxLength(4)
+                .IsRequired();
+
+            builder.Property(i => i.Reclutamiento)
+                .HasColumnName("reclutamiento")
+                .IsRequired();
+
+            builder.Property(i => i.Activo)
+                .HasColumnName("activo")
+                .IsRequired();
+
+            builder.Property(i => i.UsuarioReg)
+                .HasColumnName("usuarioreg")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(i => i.FechaReg)
+                .HasColumnName("fechareg")
+                .IsRequired();
+
+            builder.Property(i => i.UsuarioMod)
+                .HasColumnName("usuariomod")
+                .HasMaxLength(20)
+                .IsRequired();
+
+            builder.Property(i => i.FechaMod)
+                .HasColumnName("fechamod")
+                .IsRequired();
+
+            // Relaciones
+            builder.HasMany(i => i.Dependencias)
                 .WithOne(d => d.Institucion)
                 .HasForeignKey(d => d.CodInstitucion)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con Departamentos (colección)
-            builder.HasMany(x => x.Departamentos)
+            builder.HasMany(i => i.Departamentos)
                 .WithOne(d => d.Institucion)
                 .HasForeignKey(d => d.CodInstitucion)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Relación con SolicitudesPedimento (colección)
-            builder.HasMany(x => x.SolicitudesPedimento)
+            builder.HasMany(i => i.SolicitudesPedimento)
                 .WithOne(s => s.Institucion)
                 .HasForeignKey(s => s.CodInstitucion)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Índices para mejorar el rendimiento
-            builder.HasIndex(x => x.NombreInstitucion);
-            builder.HasIndex(x => x.Sigla);
-
-            // Configuración adicional para optimizar almacenamiento
-            builder.Property(x => x.NombreInstitucion)
-                .IsUnicode(false);
-
-            builder.Property(x => x.Sigla)
-                .IsUnicode(false);
+            builder.HasMany(i => i.SolicitudesAPedimento)
+                .WithOne(s => s.Institucion)
+                .HasForeignKey(s => s.CodInstitucion)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
+

@@ -1,46 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_RyS_horarios")]
+    /// <summary>
+    /// Representa un horario laboral
+    /// </summary>
     public class Horario
     {
-        public Horario()
-        {
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Required]
-        [Column(TypeName = "numeric(4,0)")]
+        /// <summary>
+        /// Código del horario
+        /// </summary>
         public decimal CodHorario { get; set; }
 
-        [Required]
-        [StringLength(35)]
-        [Column("horario")]
+        /// <summary>
+        /// Nombre del horario
+        /// </summary>
         public string NombreHorario { get; set; }
 
-        [Required]
-        [StringLength(145)]
+        /// <summary>
+        /// Detalles adicionales del horario
+        /// </summary>
         public string Detalles { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si el horario está activo
+        /// </summary>
         public bool Activo { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró el horario
+        /// </summary>
         public string UsuarioReg { get; set; }
 
+        /// <summary>
+        /// Fecha de registro del horario
+        /// </summary>
         public DateTime? FechaReg { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó el horario
+        /// </summary>
         public string UsuarioMod { get; set; }
 
+        /// <summary>
+        /// Fecha de modificación del horario
+        /// </summary>
         public DateTime? FechaMod { get; set; }
 
-        // Propiedad de navegación
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        #region Navegación
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a este horario
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

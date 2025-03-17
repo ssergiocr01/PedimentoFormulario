@@ -1,47 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_RyS_motivos_vacante")]
+    /// <summary>
+    /// Representa un motivo de vacante
+    /// </summary>
     public class MotivoVacante
     {
-        public MotivoVacante()
-        {
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-            SolicitudesAPedimento = new HashSet<SolicitudAPedimento>();
-        }
-
-        [Key]
-        [Required]
-        [Column(TypeName = "numeric(2,0)")]
+        /// <summary>
+        /// Código del motivo
+        /// </summary>
         public decimal CodMotivo { get; set; }
 
-        [Required]
-        [StringLength(35)]
-        [Column("motivo")]
+        /// <summary>
+        /// Nombre del motivo
+        /// </summary>
         public string NombreMotivo { get; set; }
 
-        [StringLength(3000)]
+        /// <summary>
+        /// Detalles adicionales del motivo
+        /// </summary>
         public string Detalles { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si el motivo está activo
+        /// </summary>
         public bool Activo { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró el motivo
+        /// </summary>
         public string UsuarioReg { get; set; }
 
+        /// <summary>
+        /// Fecha de registro del motivo
+        /// </summary>
         public DateTime? FechaReg { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó el motivo
+        /// </summary>
         public string UsuarioMod { get; set; }
 
+        /// <summary>
+        /// Fecha de modificación del motivo
+        /// </summary>
         public DateTime? FechaMod { get; set; }
 
-        // Propiedades de navegación
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
-        public virtual ICollection<SolicitudAPedimento> SolicitudesAPedimento { get; set; }
+        #region Navegación
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a este motivo
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        /// <summary>
+        /// Solicitudes a pedimento asociadas a este motivo
+        /// </summary>
+        public virtual ICollection<SolicitudAPedimento> SolicitudesAPedimento { get; set; } = new List<SolicitudAPedimento>();
+
+        #endregion
     }
 }
+

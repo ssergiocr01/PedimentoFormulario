@@ -1,76 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_clasificacion_sub_especialidad")]
+    /// <summary>
+    /// Representa una subespecialidad en el sistema de clasificación
+    /// </summary>
     public class SubEspecialidad
     {
-        public SubEspecialidad()
-        {
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Column(Order = 1, TypeName = "numeric(3,0)")]
-        [Required]
+        /// <summary>
+        /// Código de la subespecialidad
+        /// </summary>
         public decimal CodSubEspecialidad { get; set; }
 
-        [Key]
-        [Column(Order = 2, TypeName = "numeric(3,0)")]
-        [Required]
+        /// <summary>
+        /// Código de la especialidad a la que pertenece la subespecialidad
+        /// </summary>
         public decimal CodEspecialidad { get; set; }
 
-        [Required]
-        [StringLength(200)]
+        /// <summary>
+        /// Nombre de la subespecialidad
+        /// </summary>
         public string NombreSubespecialidad { get; set; }
 
-        [StringLength(350)]
+        /// <summary>
+        /// Observaciones sobre la subespecialidad
+        /// </summary>
         public string Observaciones { get; set; }
 
-        [Required]
-        [StringLength(30)]
+        /// <summary>
+        /// Resolución que establece la subespecialidad
+        /// </summary>
         public string Resolucion { get; set; }
 
-        [Required]
-        [StringLength(10)]
+        /// <summary>
+        /// Fecha de la resolución
+        /// </summary>
         public string FechaRes { get; set; }
 
-        [Required]
-        [StringLength(150)]
+        /// <summary>
+        /// Gaceta donde se publicó la resolución
+        /// </summary>
         public string Gaceta { get; set; }
 
-        [Required]
-        [StringLength(10)]
-        [Column("fehca_gaceta")] // Nota: hay un error de ortografía en el nombre de la columna
+        /// <summary>
+        /// Fecha de la gaceta
+        /// </summary>
         public string FechaGaceta { get; set; }
 
-        [StringLength(500)]
+        /// <summary>
+        /// Vínculo al documento PDF
+        /// </summary>
         public string VinculoDocPfd { get; set; }
 
+        /// <summary>
+        /// Indica si la subespecialidad está activa
+        /// </summary>
         public bool? Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la subespecialidad
+        /// </summary>
         public string UsuarioReg { get; set; }
 
+        /// <summary>
+        /// Fecha de registro de la subespecialidad
+        /// </summary>
         public DateTime? FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la subespecialidad
+        /// </summary>
         public string UsuarioMod { get; set; }
 
+        /// <summary>
+        /// Fecha de modificación de la subespecialidad
+        /// </summary>
         public DateTime? FechaMod { get; set; }
 
-        [StringLength(500)]
+        /// <summary>
+        /// Nota adicional sobre la subespecialidad
+        /// </summary>
         public string Nota { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodEspecialidad")]
+        #region Navegación
+
+        /// <summary>
+        /// Especialidad a la que pertenece la subespecialidad
+        /// </summary>
         public virtual Especialidad Especialidad { get; set; }
 
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a esta subespecialidad
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

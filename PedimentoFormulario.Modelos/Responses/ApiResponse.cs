@@ -1,11 +1,11 @@
-﻿using System.Net;
+﻿using System;
 
-namespace PedimentoFormulario.Modelos.Responses
+namespace PedimentoFormulario.Modelos.Response
 {
     /// <summary>
     /// Clase genérica para estandarizar las respuestas de la API
     /// </summary>
-    /// <typeparam name="T">Tipo de datos que se devolverá en la respuesta</typeparam>
+    /// <typeparam name="T">Tipo de datos que contiene la respuesta</typeparam>
     public class ApiResponse<T>
     {
         /// <summary>
@@ -14,132 +14,174 @@ namespace PedimentoFormulario.Modelos.Responses
         public bool Success { get; set; }
 
         /// <summary>
-        /// Mensaje descriptivo del resultado de la operación
+        /// Mensaje descriptivo de la operación
         /// </summary>
         public string Message { get; set; }
 
         /// <summary>
-        /// Datos devueltos por la operación
+        /// Datos retornados por la operación
         /// </summary>
         public T Data { get; set; }
 
         /// <summary>
-        /// Código de estado HTTP
+        /// Código de error en caso de fallo
         /// </summary>
-        public HttpStatusCode StatusCode { get; set; }
+        public string ErrorCode { get; set; }
 
         /// <summary>
-        /// Lista de errores en caso de que la operación falle
+        /// Timestamp de la respuesta
         /// </summary>
-        public List<string> Errors { get; set; } = new List<string>();
+        public DateTime Timestamp { get; set; } = DateTime.Now;
 
         /// <summary>
-        /// Constructor para respuesta exitosa con datos
+        /// Constructor por defecto
         /// </summary>
-        public static ApiResponse<T> SuccessResponse(T data, string message = "Operación realizada con éxito")
+        public ApiResponse()
+        {
+        }
+
+        /// <summary>
+        /// Constructor para respuestas exitosas con datos
+        /// </summary>
+        /// <param name="data">Datos a retornar</param>
+        /// <param name="message">Mensaje descriptivo</param>
+        public ApiResponse(T data, string message = "Operación completada con éxito")
+        {
+            Success = true;
+            Message = message;
+            Data = data;
+        }
+
+        /// <summary>
+        /// Constructor para respuestas de error
+        /// </summary>
+        /// <param name="message">Mensaje de error</param>
+        /// <param name="errorCode">Código de error</param>
+        public ApiResponse(string message, string errorCode = null)
+        {
+            Success = false;
+            Message = message;
+            ErrorCode = errorCode;
+            Data = default;
+        }
+
+        /// <summary>
+        /// Crea una respuesta exitosa
+        /// </summary>
+        /// <param name="data">Datos a retornar</param>
+        /// <param name="message">Mensaje descriptivo</param>
+        /// <returns>Instancia de ApiResponse con éxito</returns>
+        public static ApiResponse<T> Ok(T data, string message = "Operación completada con éxito")
         {
             return new ApiResponse<T>
             {
                 Success = true,
                 Message = message,
-                Data = data,
-                StatusCode = HttpStatusCode.OK
+                Data = data
             };
         }
 
         /// <summary>
-        /// Constructor para respuesta exitosa sin datos (por ejemplo, para operaciones de eliminación)
+        /// Crea una respuesta de error
         /// </summary>
-        public static ApiResponse<T> SuccessResponse(string message = "Operación realizada con éxito")
+        /// <param name="message">Mensaje de error</param>
+        /// <param name="errorCode">Código de error</param>
+        /// <returns>Instancia de ApiResponse con error</returns>
+        public static ApiResponse<T> Error(string message, string errorCode = null)
         {
             return new ApiResponse<T>
+            {
+                Success = false,
+                Message = message,
+                ErrorCode = errorCode,
+                Data = default
+            };
+        }
+    }
+
+    /// <summary>
+    /// Versión no genérica de ApiResponse para respuestas sin datos
+    /// </summary>
+    public class ApiResponse
+    {
+        /// <summary>
+        /// Indica si la operación fue exitosa
+        /// </summary>
+        public bool Success { get; set; }
+
+        /// <summary>
+        /// Mensaje descriptivo de la operación
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Código de error en caso de fallo
+        /// </summary>
+        public string ErrorCode { get; set; }
+
+        /// <summary>
+        /// Timestamp de la respuesta
+        /// </summary>
+        public DateTime Timestamp { get; set; } = DateTime.Now;
+
+        /// <summary>
+        /// Constructor por defecto
+        /// </summary>
+        public ApiResponse()
+        {
+        }
+
+        /// <summary>
+        /// Constructor para respuestas exitosas
+        /// </summary>
+        /// <param name="message">Mensaje descriptivo</param>
+        public ApiResponse(string message = "Operación completada con éxito")
+        {
+            Success = true;
+            Message = message;
+        }
+
+        /// <summary>
+        /// Constructor para respuestas de error
+        /// </summary>
+        /// <param name="message">Mensaje de error</param>
+        /// <param name="errorCode">Código de error</param>
+        public ApiResponse(string message, string errorCode)
+        {
+            Success = false;
+            Message = message;
+            ErrorCode = errorCode;
+        }
+
+        /// <summary>
+        /// Crea una respuesta exitosa
+        /// </summary>
+        /// <param name="message">Mensaje descriptivo</param>
+        /// <returns>Instancia de ApiResponse con éxito</returns>
+        public static ApiResponse Ok(string message = "Operación completada con éxito")
+        {
+            return new ApiResponse
             {
                 Success = true,
-                Message = message,
-                StatusCode = HttpStatusCode.OK
+                Message = message
             };
         }
 
         /// <summary>
-        /// Constructor para respuesta de creación exitosa
+        /// Crea una respuesta de error
         /// </summary>
-        public static ApiResponse<T> CreatedResponse(T data, string message = "Recurso creado con éxito")
+        /// <param name="message">Mensaje de error</param>
+        /// <param name="errorCode">Código de error</param>
+        /// <returns>Instancia de ApiResponse con error</returns>
+        public static ApiResponse Error(string message, string errorCode = null)
         {
-            return new ApiResponse<T>
-            {
-                Success = true,
-                Message = message,
-                Data = data,
-                StatusCode = HttpStatusCode.Created
-            };
-        }
-
-        /// <summary>
-        /// Constructor para respuesta de error
-        /// </summary>
-        public static ApiResponse<T> ErrorResponse(string message, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
-        {
-            return new ApiResponse<T>
+            return new ApiResponse
             {
                 Success = false,
                 Message = message,
-                StatusCode = statusCode
-            };
-        }
-
-        /// <summary>
-        /// Constructor para respuesta de error con lista de errores
-        /// </summary>
-        public static ApiResponse<T> ErrorResponse(List<string> errors, string message = "Se han producido uno o más errores", HttpStatusCode statusCode = HttpStatusCode.BadRequest)
-        {
-            return new ApiResponse<T>
-            {
-                Success = false,
-                Message = message,
-                Errors = errors,
-                StatusCode = statusCode
-            };
-        }
-
-        /// <summary>
-        /// Constructor para respuesta de error de validación
-        /// </summary>
-        public static ApiResponse<T> ValidationErrorResponse(List<string> errors)
-        {
-            return new ApiResponse<T>
-            {
-                Success = false,
-                Message = "Error de validación",
-                Errors = errors,
-                StatusCode = HttpStatusCode.BadRequest
-            };
-        }
-
-        /// <summary>
-        /// Constructor para respuesta de recurso no encontrado
-        /// </summary>
-        public static ApiResponse<T> NotFoundResponse(string message = "Recurso no encontrado")
-        {
-            return new ApiResponse<T>
-            {
-                Success = false,
-                Message = message,
-                StatusCode = HttpStatusCode.NotFound
-            };
-        }
-
-        /// <summary>
-        /// Constructor para respuesta de error interno del servidor
-        /// </summary>
-        public static ApiResponse<T> ServerErrorResponse(Exception ex)
-        {
-            return new ApiResponse<T>
-            {
-                Success = false,
-                Message = "Error interno del servidor",
-                Errors = new List<string> { ex.Message },
-                StatusCode = HttpStatusCode.InternalServerError
+                ErrorCode = errorCode
             };
         }
     }
 }
+

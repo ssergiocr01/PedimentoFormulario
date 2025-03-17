@@ -1,52 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_DGSC_departamentos")]
+    /// <summary>
+    /// Representa un departamento dentro de una institución
+    /// </summary>
     public class Departamento
     {
-        [Key]
-        [Column(Order = 1, TypeName = "numeric(6,0)")]
-        [Required]
+        /// <summary>
+        /// Código del departamento
+        /// </summary>
         public decimal CodDepartamento { get; set; }
 
-        [Key]
-        [Column(Order = 2, TypeName = "numeric(3,0)")]
-        [Required]
+        /// <summary>
+        /// Código de la institución a la que pertenece el departamento
+        /// </summary>
         public decimal CodInstitucion { get; set; }
 
-        [Required]
-        [StringLength(75)]
-        [Column("departamento")]
+        /// <summary>
+        /// Nombre del departamento
+        /// </summary>
         public string NombreDepartamento { get; set; }
 
-        [StringLength(3000)]
+        /// <summary>
+        /// Detalles adicionales del departamento
+        /// </summary>
         public string Detalles { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Indica si el departamento está activo
+        /// </summary>
         public bool Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró el departamento
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro del departamento
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó el departamento
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación del departamento
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodInstitucion")]
+        #region Navegación
+
+        /// <summary>
+        /// Institución a la que pertenece el departamento
+        /// </summary>
         public virtual Institucion Institucion { get; set; }
 
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        /// <summary>
+        /// Solicitudes de pedimento asociadas al departamento
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

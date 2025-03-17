@@ -1,50 +1,66 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_RyS_firmas_pedimento")]
+    /// <summary>
+    /// Representa una firma en un pedimento
+    /// </summary>
     public class FirmaPedimento
     {
-        [Key]
-        [Column(Order = 1)]
-        [Required]
-        [StringLength(15)]
+        /// <summary>
+        /// Código del pedimento
+        /// </summary>
         public string Pedimento { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Código de la firma
+        /// </summary>
         public string CodFirma { get; set; }
 
-        [Key]
-        [Column(Order = 3, TypeName = "numeric(1,0)")]
-        [Required]
+        /// <summary>
+        /// Tipo de firma
+        /// </summary>
         public decimal TipoFirma { get; set; }
 
-        [StringLength(50)]
+        /// <summary>
+        /// Nombre de la persona que firma
+        /// </summary>
         public string Nombre { get; set; }
 
+        /// <summary>
+        /// Observaciones sobre la firma
+        /// </summary>
         public string Observaciones { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la firma
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro de la firma
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la firma
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación de la firma
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedad de navegación
-        [ForeignKey("Pedimento")]
+        #region Navegación
+
+        /// <summary>
+        /// Solicitud de pedimento asociada
+        /// </summary>
         public virtual SolicitudPedimentoPersonal SolicitudPedimento { get; set; }
+
+        #endregion
     }
 }
+

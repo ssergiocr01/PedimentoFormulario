@@ -1,72 +1,96 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_clasificacion_clase_generica")]
+    /// <summary>
+    /// Representa una clase genérica en el sistema de clasificación
+    /// </summary>
     public class ClaseGenerica
     {
-        public ClaseGenerica()
-        {
-            Clases = new HashSet<Clase>(); // Cambiado de ClasesClasificacion a Clases
-            SolicitudesPedimento = new HashSet<SolicitudPedimentoPersonal>();
-        }
-
-        [Key]
-        [Column(Order = 1, TypeName = "numeric(2,0)")]
-        [Required]
-        public decimal CodClaseGen { get; set; }
-
-        [Key]
-        [Column(Order = 2, TypeName = "numeric(2,0)")]
-        [Required]
+        /// <summary>
+        /// Código del estrato al que pertenece la clase genérica
+        /// </summary>
         public decimal CodEstrato { get; set; }
 
-        [StringLength(100)]
+        /// <summary>
+        /// Código de la clase genérica
+        /// </summary>
+        public decimal CodClaseGen { get; set; }
+
+        /// <summary>
+        /// Nombre de la clase genérica
+        /// </summary>
         public string NombreGenerica { get; set; }
 
-        [Required]
-        [StringLength(30)]
+        /// <summary>
+        /// Resolución que establece la clase genérica
+        /// </summary>
         public string Resolucion { get; set; }
 
-        [Required]
-        [StringLength(10)]
+        /// <summary>
+        /// Fecha de la resolución
+        /// </summary>
         public string FechaRes { get; set; }
 
-        [Required]
-        [StringLength(150)]
+        /// <summary>
+        /// Gaceta donde se publicó la resolución
+        /// </summary>
         public string Gaceta { get; set; }
 
-        [Required]
-        [StringLength(10)]
+        /// <summary>
+        /// Fecha de la gaceta
+        /// </summary>
         public string FechaGaceta { get; set; }
 
-        [StringLength(200)]
+        /// <summary>
+        /// Vínculo al documento PDF
+        /// </summary>
         public string VinculoDocPfd { get; set; }
 
+        /// <summary>
+        /// Indica si la clase genérica está activa
+        /// </summary>
         public bool? Activo { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la clase genérica
+        /// </summary>
         public string UsuarioReg { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de registro de la clase genérica
+        /// </summary>
         public DateTime FechaReg { get; set; }
 
-        [Required]
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la clase genérica
+        /// </summary>
         public string UsuarioMod { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Fecha de modificación de la clase genérica
+        /// </summary>
         public DateTime FechaMod { get; set; }
 
-        // Propiedades de navegación
-        [ForeignKey("CodEstrato")]
+        #region Navegación
+
+        /// <summary>
+        /// Estrato al que pertenece la clase genérica
+        /// </summary>
         public virtual Estrato Estrato { get; set; }
 
-        public virtual ICollection<Clase> Clases { get; set; } // Cambiado de ClasesClasificacion a Clases
-        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; }
+        /// <summary>
+        /// Clases que pertenecen a esta clase genérica
+        /// </summary>
+        public virtual ICollection<Clase> Clases { get; set; } = new List<Clase>();
+
+        /// <summary>
+        /// Solicitudes de pedimento asociadas a esta clase genérica
+        /// </summary>
+        public virtual ICollection<SolicitudPedimentoPersonal> SolicitudesPedimento { get; set; } = new List<SolicitudPedimentoPersonal>();
+
+        #endregion
     }
 }
+

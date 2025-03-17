@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PedimentoFormulario.Modelos\PedimentoFormulario.Modelos.csproj" />
+    <ProjectReference Include="..\PedimentoFormulario.Utilities\PedimentoFormulario.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,47 +1,66 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace PedimentoFormulario.Modelos.Entidades
 {
-    [Table("SAGTHE_RyS_tareas_puesto")]
+    /// <summary>
+    /// Representa una tarea asociada a un puesto
+    /// </summary>
     public class TareaPuesto
     {
-        [Key]
-        [Column(Order = 1)]
-        [Required]
-        [StringLength(15)]
+        /// <summary>
+        /// Código del pedimento
+        /// </summary>
         public string Pedimento { get; set; }
 
-        [Key]
-        [Column(Order = 2, TypeName = "numeric(18,0)")]
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        /// <summary>
+        /// Código de la tarea (auto-incrementable)
+        /// </summary>
         public decimal CodTarea { get; set; }
 
-        [Required]
+        /// <summary>
+        /// Descripción de la tarea
+        /// </summary>
         public string Tarea { get; set; }
 
-        [Required]
-        [Column("detalle_tarea")]
+        /// <summary>
+        /// Detalle de la tarea
+        /// </summary>
         public string DetalleTarea { get; set; }
 
-        [Required]
-        [StringLength(1)]
+        /// <summary>
+        /// Frecuencia de la tarea
+        /// </summary>
         public string Frecuencia { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que registró la tarea
+        /// </summary>
         public string UsuarioReg { get; set; }
 
+        /// <summary>
+        /// Fecha de registro de la tarea
+        /// </summary>
         public DateTime? FechaReg { get; set; }
 
-        [StringLength(20)]
+        /// <summary>
+        /// Usuario que modificó la tarea
+        /// </summary>
         public string UsuarioMod { get; set; }
 
+        /// <summary>
+        /// Fecha de modificación de la tarea
+        /// </summary>
         public DateTime? FechaMod { get; set; }
 
-        // Propiedad de navegación
-        [ForeignKey("Pedimento")]
+        #region Navegación
+
+        /// <summary>
+        /// Solicitud de pedimento asociada
+        /// </summary>
         public virtual SolicitudPedimentoPersonal SolicitudPedimento { get; set; }
+
+        #endregion
     }
 }
+
