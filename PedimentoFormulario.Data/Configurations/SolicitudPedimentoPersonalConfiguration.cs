@@ -2,291 +2,304 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedimentoFormulario.Modelos.Entidades;
 
-namespace PedimentoFormulario.Data.Configuration
+namespace PedimentoFormulario.Data.Configurations
 {
     /// <summary>
-    /// Configuración de la entidad SolicitudPedimentoPersonal utilizando Fluent API
+    /// Configuración para la entidad SolicitudPedimentoPersonal
     /// </summary>
     public class SolicitudPedimentoPersonalConfiguration : IEntityTypeConfiguration<SolicitudPedimentoPersonal>
     {
         public void Configure(EntityTypeBuilder<SolicitudPedimentoPersonal> builder)
         {
-            // Tabla
+            // Configuración de la tabla
             builder.ToTable("SAGTHE_RyS_pedimento_personal");
 
             // Clave primaria
-            builder.HasKey(p => p.Pedimento);
+            builder.HasKey(s => s.Pedimento);
 
             // Propiedades
-            builder.Property(p => p.Pedimento)
+            builder.Property(s => s.Pedimento)
                 .HasColumnName("pedimento")
                 .HasMaxLength(15)
                 .IsRequired();
 
-            builder.Property(p => p.CodInstitucion)
+            builder.Property(s => s.CodInstitucion)
                 .HasColumnName("cod_institucion")
                 .HasColumnType("numeric(3,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodDependencia)
+            builder.Property(s => s.CodDependencia)
                 .HasColumnName("cod_dependencia")
                 .HasColumnType("numeric(4,0)")
                 .IsRequired();
 
-            builder.Property(p => p.NumPuesto)
+            builder.Property(s => s.NumPuesto)
                 .HasColumnName("num_puesto")
                 .HasColumnType("numeric(15,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodPresupuesto)
+            builder.Property(s => s.CodPresupuesto)
                 .HasColumnName("cod_presupuesto")
                 .HasMaxLength(20);
 
-            builder.Property(p => p.CodEstrato)
+            builder.Property(s => s.CodEstrato)
                 .HasColumnName("cod_estrato")
                 .HasColumnType("numeric(2,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodClaseGen)
+            builder.Property(s => s.CodClaseGen)
                 .HasColumnName("cod_clase_gen")
                 .HasColumnType("numeric(2,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodClase)
+            builder.Property(s => s.CodClase)
                 .HasColumnName("cod_clase")
                 .HasMaxLength(15)
                 .IsRequired();
 
-            builder.Property(p => p.CodEspecialidad)
+            builder.Property(s => s.CodEspecialidad)
                 .HasColumnName("cod_especialidad")
                 .HasColumnType("numeric(3,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodSubEspecialidad)
+            builder.Property(s => s.CodSubEspecialidad)
                 .HasColumnName("cod_sub_especialidad")
                 .HasColumnType("numeric(3,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodCargo)
+            builder.Property(s => s.CodCargo)
                 .HasColumnName("cod_cargo")
                 .HasColumnType("numeric(5,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodMotivo)
+            builder.Property(s => s.CodMotivo)
                 .HasColumnName("cod_motivo")
                 .HasColumnType("numeric(2,0)")
                 .IsRequired();
 
-            builder.Property(p => p.IntIdentificacion)
+            builder.Property(s => s.IntIdentificacion)
                 .HasColumnName("int_identificacion")
                 .HasMaxLength(20);
 
-            builder.Property(p => p.IntNombre)
+            builder.Property(s => s.IntNombre)
                 .HasColumnName("int_nombre")
                 .HasMaxLength(80);
 
-            builder.Property(p => p.CodDepartamento)
+            builder.Property(s => s.CodDepartamento)
                 .HasColumnName("cod_departamento")
                 .HasColumnType("numeric(6,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodProvincia)
+            builder.Property(s => s.CodProvincia)
                 .HasColumnName("cod_provincia")
                 .HasColumnType("numeric(2,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodCanton)
+            builder.Property(s => s.CodCanton)
                 .HasColumnName("cod_canton")
                 .HasColumnType("numeric(3,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodDistrito)
+            builder.Property(s => s.CodDistrito)
                 .HasColumnName("cod_distrito")
-                .HasColumnType("numeric(3,0)")
+                .HasColumnType("numeric(4,0)")
                 .IsRequired();
 
-            builder.Property(p => p.Destacado)
+            builder.Property(s => s.Destacado)
                 .HasColumnName("destacado")
                 .HasColumnType("numeric(1,0)");
 
-            builder.Property(p => p.EspecDestacado)
+            builder.Property(s => s.EspecDestacado)
                 .HasColumnName("espec_destacado")
                 .HasColumnType("text");
 
-            builder.Property(p => p.Traslado)
-                .HasColumnName("traslado");
+            builder.Property(s => s.Traslado)
+                .HasColumnName("traslado")
+                .HasDefaultValue(false);
 
-            builder.Property(p => p.EspecTraslado)
+            builder.Property(s => s.EspecTraslado)
                 .HasColumnName("espec_traslado")
                 .HasColumnType("text");
 
-            builder.Property(p => p.CodJornada)
+            builder.Property(s => s.CodJornada)
                 .HasColumnName("cod_jornada")
                 .HasColumnType("numeric(2,0)")
                 .IsRequired();
 
-            builder.Property(p => p.CodHorario)
+            builder.Property(s => s.CodHorario)
                 .HasColumnName("cod_horario")
                 .HasColumnType("numeric(4,0)")
                 .IsRequired();
 
-            builder.Property(p => p.Observaciones)
+            builder.Property(s => s.Observaciones)
                 .HasColumnName("observaciones")
                 .HasColumnType("text");
 
-            builder.Property(p => p.CodTipoResolucion)
+            builder.Property(s => s.CodTipoResolucion)
                 .HasColumnName("cod_tipo_resolucion")
                 .HasColumnType("numeric(2,0)");
 
-            builder.Property(p => p.DetallesResolucion)
+            builder.Property(s => s.DetallesResolucion)
                 .HasColumnName("detalles_resolucion")
                 .HasColumnType("text");
 
-            builder.Property(p => p.Consecutivo)
+            builder.Property(s => s.Consecutivo)
                 .HasColumnName("consecutivo")
                 .HasColumnType("numeric(5,0)")
                 .IsRequired();
 
-            builder.Property(p => p.Anno)
+            builder.Property(s => s.Anno)
                 .HasColumnName("anno")
                 .HasColumnType("numeric(4,0)")
                 .IsRequired();
 
-            builder.Property(p => p.AnulaPed)
-                .HasColumnName("anula_ped");
+            builder.Property(s => s.AnulaPed)
+                .HasColumnName("anula_ped")
+                .HasDefaultValue(false);
 
-            builder.Property(p => p.NumPedimento)
+            builder.Property(s => s.NumPedimento)
                 .HasColumnName("num_pedimento")
                 .HasMaxLength(15);
 
-            builder.Property(p => p.Detalles)
+            builder.Property(s => s.Detalles)
                 .HasColumnName("detalles")
                 .HasColumnType("text");
 
-            builder.Property(p => p.ObservacionesPed)
+            builder.Property(s => s.ObservacionesPed)
                 .HasColumnName("observaciones_ped")
                 .HasColumnType("text");
 
-            builder.Property(p => p.Temporal)
-                .HasColumnName("temporal");
+            builder.Property(s => s.Temporal)
+                .HasColumnName("temporal")
+                .HasDefaultValue(true);
 
-            builder.Property(p => p.ConsecTemporal)
+            builder.Property(s => s.ConsecTemporal)
                 .HasColumnName("consec_temporal")
                 .HasColumnType("numeric(5,0)");
 
-            builder.Property(p => p.UsuarioMod)
+            builder.Property(s => s.UsuarioMod)
                 .HasColumnName("usuariomod")
                 .HasMaxLength(20)
                 .IsRequired();
 
-            builder.Property(p => p.FechaReg)
+            builder.Property(s => s.FechaReg)
                 .HasColumnName("fechareg")
+                .HasColumnType("datetime")
                 .IsRequired();
 
-            builder.Property(p => p.UsuarioReg)
+            builder.Property(s => s.UsuarioReg)
                 .HasColumnName("usuarioreg")
                 .HasMaxLength(20)
                 .IsRequired();
 
-            builder.Property(p => p.FechaMod)
+            builder.Property(s => s.FechaMod)
                 .HasColumnName("fechamod")
+                .HasColumnType("datetime")
                 .IsRequired();
 
-            builder.Property(p => p.CodEstPedUlt)
+            builder.Property(s => s.CodEstPedUlt)
                 .HasColumnName("cod_est_ped_ult")
                 .HasColumnType("numeric(2,0)");
 
-            builder.Property(p => p.ReservaDiscapacidad)
+            builder.Property(s => s.ReservaDiscapacidad)
                 .HasColumnName("reserva_discapacidad")
+                .HasDefaultValue(false)
                 .IsRequired();
 
-            builder.Property(p => p.ObservacionesConcursoInt)
+            builder.Property(s => s.ObservacionesConcursoInt)
                 .HasColumnName("observaciones_concurso_int")
                 .HasColumnType("text");
 
-            builder.Property(p => p.ReservaAfrodescendiente)
-                .HasColumnName("reserva_afrodescendiente");
+            builder.Property(s => s.ReservaAfrodescendiente)
+                .HasColumnName("reserva_afrodescendiente")
+                .HasDefaultValue(false);
 
             // Relaciones
-            builder.HasOne(p => p.Institucion)
-                .WithMany(i => i.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodInstitucion)
+            builder.HasOne(s => s.Institucion)
+                .WithMany()
+                .HasForeignKey(s => s.CodInstitucion)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Dependencia)
-                .WithMany(d => d.SolicitudesPedimento)
-                .HasForeignKey(p => new { p.CodDependencia, p.CodInstitucion })
+            builder.HasOne(s => s.Dependencia)
+                .WithMany()
+                .HasForeignKey(s => new { s.CodDependencia, s.CodInstitucion })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Departamento)
-                .WithMany(d => d.SolicitudesPedimento)
-                .HasForeignKey(p => new { p.CodDepartamento, p.CodInstitucion })
+            builder.HasOne(s => s.Departamento)
+                .WithMany()
+                .HasForeignKey(s => new { s.CodDepartamento, s.CodInstitucion })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Estrato)
-                .WithMany(e => e.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodEstrato)
+            builder.HasOne(s => s.Estrato)
+                .WithMany()
+                .HasForeignKey(s => s.CodEstrato)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.ClaseGenerica)
-                .WithMany(c => c.SolicitudesPedimento)
-                .HasForeignKey(p => new { p.CodClaseGen, p.CodEstrato })
+            builder.HasOne(s => s.ClaseGenerica)
+                .WithMany()
+                .HasForeignKey(s => new { s.CodClaseGen, s.CodEstrato })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Clase)
-                .WithMany(c => c.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodClase)
+            builder.HasOne(s => s.Clase)
+                .WithMany()
+                .HasForeignKey(s => s.CodClase)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Especialidad)
-                .WithMany(e => e.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodEspecialidad)
+            builder.HasOne(s => s.Especialidad)
+                .WithMany()
+                .HasForeignKey(s => s.CodEspecialidad)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.SubEspecialidad)
-                .WithMany(s => s.SolicitudesPedimento)
-                .HasForeignKey(p => new { p.CodSubEspecialidad, p.CodEspecialidad })
+            builder.HasOne(s => s.SubEspecialidad)
+                .WithMany()
+                .HasForeignKey(s => new { s.CodSubEspecialidad, s.CodEspecialidad })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Cargo)
-                .WithMany(c => c.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodCargo)
+            builder.HasOne(s => s.Cargo)
+                .WithMany()
+                .HasForeignKey(s => s.CodCargo)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Provincia)
-                .WithMany(p => p.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodProvincia)
+            builder.HasOne(s => s.Provincia)
+                .WithMany()
+                .HasForeignKey(s => s.CodProvincia)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Canton)
-                .WithMany(c => c.SolicitudesPedimento)
-                .HasForeignKey(p => new { p.CodCanton, p.CodProvincia })
+            builder.HasOne(s => s.Canton)
+                .WithMany()
+                .HasForeignKey(s => new { s.CodCanton, s.CodProvincia })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Distrito)
-                .WithMany(d => d.SolicitudesPedimento)
-                .HasForeignKey(p => new { p.CodDistrito, p.CodCanton, p.CodProvincia })
+            builder.HasOne(s => s.Distrito)
+                .WithMany()
+                .HasForeignKey(s => new { s.CodDistrito, s.CodCanton, s.CodProvincia })
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Jornada)
-                .WithMany(j => j.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodJornada)
+            builder.HasOne(s => s.Jornada)
+                .WithMany()
+                .HasForeignKey(s => s.CodJornada)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.Horario)
-                .WithMany(h => h.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodHorario)
+            builder.HasOne(s => s.Horario)
+                .WithMany()
+                .HasForeignKey(s => s.CodHorario)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.MotivoVacante)
-                .WithMany(m => m.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodMotivo)
+            builder.HasOne(s => s.MotivoVacante)
+                .WithMany()
+                .HasForeignKey(s => s.CodMotivo)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(p => p.TipoResolucion)
-                .WithMany(t => t.SolicitudesPedimento)
-                .HasForeignKey(p => p.CodTipoResolucion)
+            builder.HasOne(s => s.TipoResolucion)
+                .WithMany()
+                .HasForeignKey(s => s.CodTipoResolucion)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Relación con CaracterizacionPuesto (nueva)
+            builder.HasMany(s => s.CaracterizacionesPuesto)
+                .WithOne(c => c.SolicitudPedimento)
+                .HasForeignKey(c => c.Pedimento)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

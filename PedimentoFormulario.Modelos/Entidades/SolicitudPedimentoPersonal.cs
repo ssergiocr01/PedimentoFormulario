@@ -320,6 +320,11 @@ namespace PedimentoFormulario.Modelos.Entidades
         /// </summary>
         public virtual ICollection<FirmaPedimento> FirmasPedimento { get; set; } = new List<FirmaPedimento>();
 
+        /// <summary>
+        /// Caracterizaciones del puesto
+        /// </summary>
+        public virtual ICollection<CaracterizacionPuesto> CaracterizacionesPuesto { get; set; } = new List<CaracterizacionPuesto>();
+
         #endregion
     }
 }

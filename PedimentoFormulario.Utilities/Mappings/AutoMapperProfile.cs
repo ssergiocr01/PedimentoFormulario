@@ -25,7 +25,10 @@ namespace PedimentoFormulario.Utilities.Mappings
             CreateMap<Clase, ClaseDto>().ReverseMap();
             CreateMap<Especialidad, EspecialidadDto>().ReverseMap();
             CreateMap<SubEspecialidad, SubespecialidadDto>()
+                .ForMember(dest => dest.CodSubEspecialidad, opt => opt.MapFrom(src => src.CodSubEspecialidad))
+                .ForMember(dest => dest.CodEspecialidad, opt => opt.MapFrom(src => src.CodEspecialidad))
                 .ForMember(dest => dest.NombreSubespecialidad, opt => opt.MapFrom(src => src.NombreSubespecialidad))
+                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Activo))
                 .ReverseMap();
 
             // Mapeos institucionales
@@ -39,7 +42,16 @@ namespace PedimentoFormulario.Utilities.Mappings
             CreateMap<Horario, HorarioDto>().ReverseMap();
 
             // Mapeos de motivos
-            CreateMap<MotivoVacante, MotivoVacanteDto>().ReverseMap();
+            CreateMap<MotivoVacante, MotivoVacanteDto>()
+                .ForMember(dest => dest.CodMotivo, opt => opt.MapFrom(src => src.CodMotivo))
+                .ForMember(dest => dest.NombreMotivo, opt => opt.MapFrom(src => src.NombreMotivo))
+                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Activo))
+                .ReverseMap();
+            CreateMap<TipoResolucion, TipoResolucionDto>()
+                .ForMember(dest => dest.CodTipoResolucion, opt => opt.MapFrom(src => src.CodTipoResolucion))
+                .ForMember(dest => dest.NombreTipoResolucion, opt => opt.MapFrom(src => src.NombreTipoResolucion))
+                .ForMember(dest => dest.Activo, opt => opt.MapFrom(src => src.Activo))
+                .ReverseMap();
 
             // Mapeos de estados
             CreateMap<EstadoParaPedimento, EstadoParaPedimentoDto>().ReverseMap();
@@ -81,6 +93,8 @@ namespace PedimentoFormulario.Utilities.Mappings
                 .ForMember(dest => dest.NombreMotivo, opt => opt.MapFrom(src => src.MotivoVacante.NombreMotivo))
                 .ForMember(dest => dest.NombreEstado, opt => opt.MapFrom(src => "")) // Aquí falta la relación con el estado
                 .ReverseMap();
+
+            
         }
     }
 }
